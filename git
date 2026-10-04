@@ -1,0 +1,330 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Just Because I Love You</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        warm: {
+                            50: '#fffbf7',
+                            100: '#fef3e7',
+                            200: '#fce4cd',
+                            300: '#f8ca9d',
+                            400: '#f3a469',
+                            500: '#eb7d38',
+                            600: '#dc5f1f',
+                            700: '#b74418',
+                            800: '#92371b',
+                            900: '#76301a',
+                        },
+                        rose: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            200: '#fecdd3',
+                            300: '#fda4af',
+                            400: '#fb7185',
+                            500: '#f43f5e',
+                        },
+                        cozyDark: {
+                            900: '#181214',
+                            800: '#261c20',
+                            700: '#38282e',
+                            600: '#4d3740',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        handwriting: ['Caveat', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Smooth Scroll & Card Styles */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Particles Animation */
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) scale(0.5) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.8;
+            }
+            80% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            animation: floatParticle linear infinite;
+        }
+
+        /* 3D Flip Card Effect */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+
+        .transform-style-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        .flipped .transform-style-3d {
+            transform: rotateY(180deg);
+        }
+
+        /* Custom Envelope Styles */
+        .envelope {
+            transition: all 0.3s ease;
+        }
+        .envelope:hover {
+            transform: translateY(-5deg);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f3a469;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-warm-50 text-slate-800 dark:bg-cozyDark-900 dark:text-rose-100 transition-colors duration-500 font-sans min-h-screen relative overflow-x-hidden">
+
+    <div id="particleContainer" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+    <nav class="sticky top-0 z-40 backdrop-blur-md bg-warm-50/80 dark:bg-cozyDark-900/80 border-b border-warm-200/50 dark:border-cozyDark-700/50 transition-colors duration-300">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="#" class="font-serif text-xl sm:text-2xl font-bold text-warm-700 dark:text-rose-300 tracking-wide flex items-center gap-2">
+                <i class="fa-solid font-normal fa-heart text-rose-500 animate-pulse text-lg"></i>
+                <span>Just Because</span>
+            </a>
+            
+            <div class="flex items-center gap-3">
+                <button id="themeToggleBtn" onclick="toggleTheme()" class="p-2.5 rounded-full bg-warm-100 dark:bg-cozyDark-800 text-warm-700 dark:text-rose-300 hover:bg-warm-200 dark:hover:bg-cozyDark-700 transition-all duration-300 flex items-center gap-2 text-xs sm:text-sm font-medium shadow-sm" aria-label="Toggle Cozy Evening Mode">
+                    <i id="themeIcon" class="fa-solid fa-moon text-indigo-400"></i>
+                    <span id="themeText" class="hidden sm:inline">Cozy Evening</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative min-h-[85vh] flex items-center justify-center px-4 py-16 overflow-hidden">
+        <div class="max-w-3xl mx-auto text-center z-10 space-y-6">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-rose-100/80 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 text-xs sm:text-sm font-medium border border-rose-200 dark:border-rose-800/50 shadow-sm animate-fade-in">
+                <i class="fa-solid fa-sparkles text-rose-500"></i>
+                <span>No special reason. Just thinking about you.</span>
+            </div>
+            
+            <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl font-bold text-slate-800 dark:text-rose-50 leading-tight tracking-tight">
+                Hey handsome, <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-warm-600 via-rose-500 to-warm-500 dark:from-rose-300 dark:via-rose-400 dark:to-warm-300">
+                    you make my world brighter.
+                </span>
+            </h1>
+
+            <p class="text-lg sm:text-xl text-slate-600 dark:text-rose-200/80 max-w-xl mx-auto font-light leading-relaxed">
+                Sometimes you don't need an anniversary or a holiday to say how much someone means to you. I made this little corner of the internet just for you.
+            </p>
+
+            <div class="pt-4 flex flex-wrap justify-center gap-4">
+                <a href="#letter" class="px-6 py-3.5 rounded-full bg-gradient-to-r from-warm-500 to-rose-500 hover:from-warm-600 hover:to-rose-600 text-white font-medium shadow-lg shadow-rose-500/20 hover:shadow-rose-500/30 transition-all duration-300 transform hover:-translate-y-0.5 flex items-center gap-2">
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                    Read My Letter
+                </a>
+                <a href="#journey" class="px-6 py-3.5 rounded-full bg-warm-100 dark:bg-cozyDark-800 hover:bg-warm-200 dark:hover:bg-cozyDark-700 text-slate-700 dark:text-rose-200 font-medium transition-all duration-300 flex items-center gap-2 border border-warm-200 dark:border-cozyDark-700">
+                    <i class="fa-solid fa-timeline"></i>
+                    Our Memories
+                </a>
+            </div>
+        </div>
+
+        <!-- Decorative Background Glow -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-gradient-to-tr from-warm-300/30 to-rose-300/30 dark:from-rose-900/20 dark:to-warm-900/20 rounded-full blur-3xl pointer-events-none -z-10"></div>
+    </section>
+
+    <section id="letter" class="py-16 px-4 max-w-4xl mx-auto">
+        <div class="text-center mb-10">
+            <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-800 dark:text-rose-100">A Little Note For You</h2>
+            <div class="w-12 h-1 bg-warm-400 dark:bg-rose-500 mx-auto mt-2 rounded-full"></div>
+        </div>
+
+        <div class="bg-amber-50/70 dark:bg-cozyDark-800/90 border border-amber-200/60 dark:border-cozyDark-700 rounded-2xl p-6 sm:p-10 shadow-xl relative backdrop-blur-sm transition-all duration-300">
+            <div class="absolute -top-4 -right-4 w-12 h-12 bg-rose-100 dark:bg-cozyDark-700 rounded-full flex items-center justify-center text-rose-500 text-xl shadow-md rotate-12">
+                <i class="fa-solid fa-stamp"></i>
+            </div>
+
+            <div class="font-handwriting text-2xl sm:text-3xl text-slate-700 dark:text-rose-100 leading-relaxed space-y-6">
+                <p>My Dearest,</p>
+                <p>
+                    I was sitting here thinking about you today and realized I don't say it enough without a calendar reminder. Thank you for being my favorite person, my safe space, and the biggest reason I smile every single day.
+                </p>
+                <p>
+                    Whether we're on a crazy adventure or just sitting on the couch doing absolutely nothing, every moment with you feels like home. You make ordinary days feel like something special.
+                </p>
+                <p>
+                    I love you, unconditionally and constantly. Always remember that.
+                </p>
+                <p class="text-right pt-4">
+                    With all my love,<br>
+                    <span class="text-3xl sm:text-4xl text-rose-600 dark:text-rose-400 font-bold">Me ❤️</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 px-4 max-w-5xl mx-auto">
+        <div class="text-center mb-12">
+            <span class="text-xs uppercase tracking-widest font-semibold text-rose-500 dark:text-rose-400">Tap each card to flip</span>
+            <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-800 dark:text-rose-100 mt-1">Reasons Why I Love You</h2>
+            <div class="w-12 h-1 bg-warm-400 dark:bg-rose-500 mx-auto mt-2 rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Card 1 -->
+            <div class="flip-card h-52 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                <div class="transform-style-3d relative w-full h-full rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
+                    <div class="backface-hidden absolute inset-0 bg-white dark:bg-cozyDark-800 border border-warm-200 dark:border-cozyDark-700 rounded-2xl p-6 flex flex-col items-center justify-center text-center">
+                        <div class="w-12 h-12 rounded-full bg-rose-100 dark:bg-rose-950/60 text-rose-500 flex items-center justify-center text-xl mb-3">
+                            <i class="fa-solid fa-face-smile-beam"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-800 dark:text-rose-100">Your Laugh</h3>
+                        <p class="text-xs text-slate-400 dark:text-rose-300/60 mt-2">Click to reveal</p>
+                    </div>
+                    <div class="backface-hidden rotate-y-180 absolute inset-0 bg-gradient-to-br from-warm-400 to-rose-500 text-white rounded-2xl p-6 flex items-center justify-center text-center">
+                        <p class="text-sm font-medium leading-relaxed">It’s completely contagious. Hearing you genuinely laugh instantly cures any bad mood I might be having.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="flip-card h-52 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                <div class="transform-style-3d relative w-full h-full rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
+                    <div class="backface-hidden absolute inset-0 bg-white dark:bg-cozyDark-800 border border-warm-200 dark:border-cozyDark-700 rounded-2xl p-6 flex flex-col items-center justify-center text-center">
+                        <div class="w-12 h-12 rounded-full bg-warm-100 dark:bg-warm-950/60 text-warm-600 flex items-center justify-center text-xl mb-3">
+                            <i class="fa-solid fa-hands-holding-heart"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-800 dark:text-rose-100">Your Kind Heart</h3>
+                        <p class="text-xs text-slate-400 dark:text-rose-300/60 mt-2">Click to reveal</p>
+                    </div>
+                    <div class="backface-hidden rotate-y-180 absolute inset-0 bg-gradient-to-br from-rose-400 to-warm-500 text-white rounded-2xl p-6 flex items-center justify-center text-center">
+                        <p class="text-sm font-medium leading-relaxed">The quiet, gentle way you care for people around you inspires me to be a better person every day.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="flip-card h-52 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                <div class="transform-style-3d relative w-full h-full rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
+                    <div class="backface-hidden absolute inset-0 bg-white dark:bg-cozyDark-800 border border-warm-200 dark:border-cozyDark-700 rounded-2xl p-6 flex flex-col items-center justify-center text-center">
+                        <div class="w-12 h-12 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-600 flex items-center justify-center text-xl mb-3">
+                            <i class="fa-solid fa-mug-hot"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-800 dark:text-rose-100">Cozy Moments</h3>
+                        <p class="text-xs text-slate-400 dark:text-rose-300/60 mt-2">Click to reveal</p>
+                    </div>
+                    <div class="backface-hidden rotate-y-180 absolute inset-0 bg-gradient-to-br from-amber-400 to-rose-500 text-white rounded-2xl p-6 flex items-center justify-center text-center">
+                        <p class="text-sm font-medium leading-relaxed">Doing nothing with you feels like doing everything. Lazy mornings and late-night talks are my favorite.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="flip-card h-52 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                <div class="transform-style-3d relative w-full h-full rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
+                    <div class="backface-hidden absolute inset-0 bg-white dark:bg-cozyDark-800 border border-warm-200 dark:border-cozyDark-700 rounded-2xl p-6 flex flex-col items-center justify-center text-center">
+                        <div class="w-12 h-12 rounded-full bg-indigo-100 dark:bg-indigo-950/60 text-indigo-500 flex items-center justify-center text-xl mb-3">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-800 dark:text-rose-100">How Safe You Make Me Feel</h3>
+                        <p class="text-xs text-slate-400 dark:text-rose-300/60 mt-2">Click to reveal</p>
+                    </div>
+                    <div class="backface-hidden rotate-y-180 absolute inset-0 bg-gradient-to-br from-indigo-500 to-rose-500 text-white rounded-2xl p-6 flex items-center justify-center text-center">
+                        <p class="text-sm font-medium leading-relaxed">In your arms, all my stress just melts away. You're my anchor and my safest harbor.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="flip-card h-52 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                <div class="transform-style-3d relative w-full h-full rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
+                    <div class="backface-hidden absolute inset-0 bg-white dark:bg-cozyDark-800 border border-warm-200 dark:border-cozyDark-700 rounded-2xl p-6 flex flex-col items-center justify-center text-center">
+                        <div class="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-500 flex items-center justify-center text-xl mb-3">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-800 dark:text-rose-100">Your Passion</h3>
+                        <p class="text-xs text-slate-400 dark:text-rose-300/60 mt-2">Click to reveal</p>
+                    </div>
+                    <div class="backface-hidden rotate-y-180 absolute inset-0 bg-gradient-to-br from-emerald-500 to-warm-500 text-white rounded-2xl p-6 flex items-center justify-center text-center">
+                        <p class="text-sm font-medium leading-relaxed">I love watching your eyes light up whenever you talk about something you genuinely care about.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="flip-card h-52 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                <div class="transform-style-3d relative w-full h-full rounded-2xl shadow-md hover:shadow-lg transition-all duration-300">
+                    <div class="backface-hidden absolute inset-0 bg-white dark:bg-cozyDark-800 border border-warm-200 dark:border-cozyDark-700 rounded-2xl p-6 flex flex-col items-center justify-center text-center">
+                        <div class="w-12 h-12 rounded-full bg-pink-100 dark:bg-pink-950/60 text-pink-500 flex items-center justify-center text-xl mb-3">
+                            <i class="fa-solid fa-infinity"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-800 dark:text-rose-100">Simply You</h3>
+                        <p class="text-xs text-slate-400 dark:text-rose-300/60 mt-2">Click to reveal</p>
+                    </div>
+                    <div class="backface-hidden rotate-y-180 absolute inset-0 bg-gradient-to-br from-pink-500 to-rose-600 text-white rounded-2xl p-6 flex items-center justify-center text-center">
+                        <p class="text-sm font-medium leading-relaxed">Just for being exactly who you are—flaws, quirks, and everything in between. You are perfect to me.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 px-4 max-w-5xl mx-auto">
+        <div class="text-center mb-12">
+            <span class="text-xs uppercase tracking-widest font-semibold text-rose-500 dark:text-rose-400">Digital Love Notes</span>
+            <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-800 dark:text-rose-100 mt-1">Open When...</h2>
+            <div class="w-12 h-1 bg-warm-400 dark:bg-rose-500 mx-auto mt-2 rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <!-- Envelope 1 -->
+            <div onclick="openEnvelope('miss')" class="envelope cursor-pointer bg-white dark:bg-cozyDark-800 border border-warm-200 dark:border-cozyDark-700 rounded-2xl p-6 text-center shadow-md hover:shadow-xl transition-all duration-300 group">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-warm-100 dark:bg-cozyDark-700 text-warm-600 dark:text-rose-300 flex items-center justify-c
